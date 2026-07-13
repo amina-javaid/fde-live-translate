@@ -1,0 +1,21 @@
+{
+  "target": "http://localhost:8787",
+  "rounds": 4,
+  "concurrency": 8,
+  "latency": {
+    "miss_p50": 1070.3787000384182,
+    "miss_p95": 1299.17079496081,
+    "hit_p50": 4.435999959241599,
+    "hit_p95": 23.357504943851374
+  },
+  "hit_rate_pct": 75.0,
+  "error_rate_pct": 0.0,
+  "throughput_rps": 703.4921353709949,
+  "cost": {
+    "per_miss_usd": 0.0001572,
+    "monthly_no_cache_usd": 78.6,
+    "monthly_cached_usd": 19.65,
+    "monthly_savings_usd": 58.949999999999996
+  },
+  "sla_pass": true
+}
