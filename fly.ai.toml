@@ -1,0 +1,28 @@
+# Fly config for the PRIVATE AI service.
+# Deploy from the assignment root:  flyctl deploy --config fly.ai.toml
+#
+# 1) Change `app` to a globally-unique name of your own.
+# 2) Use the SAME name in fly.gateway.toml's AI_SERVICE_URL.
+# 3) This app has NO [http_service] on purpose — it gets no public IP and is
+#    reachable only from your gateway over Fly's private network:
+#    http://<this-app-name>.internal:8000
+
+app = "fde-translate-ai-aj"
+primary_region = "iad"          # pick a region near you: fly platform regions
+
+[build]
+  dockerfile = "Dockerfile.ai"
+
+[env]
+  MODEL = "gpt-4o-mini"
+  TRANSLATION_DB_PATH = "/data/translations.db"
+
+# Persist the SQLite cache across restarts/deploys.
+# Create the volume once:  flyctl volumes create translate_data --size 1 -r iad
+[mounts]
+  source = "translate_data"
+  destination = "/data"
+
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "512mb"

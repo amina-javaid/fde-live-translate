@@ -1,0 +1,14 @@
+# AI service (Python / FastAPI). Build context = assignment root.
+FROM python:3.12-slim
+
+WORKDIR /app
+
+COPY backend/ai-service-python/requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY backend/ai-service-python/app.py .
+COPY backend/ai-service-python/lib/ ./lib/
+
+EXPOSE 8000
+# Bind IPv6 (::) so the gateway can reach it over Fly's private .internal network.
+CMD ["uvicorn", "app:app", "--host", "::", "--port", "8000"]

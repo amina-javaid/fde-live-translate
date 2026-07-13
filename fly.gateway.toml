@@ -1,0 +1,26 @@
+# Fly config for the PUBLIC gateway (the only app the browser talks to).
+# Deploy from the assignment root:  flyctl deploy --config fly.gateway.toml
+#
+# 1) Change `app` to a globally-unique name of your own.
+# 2) Set AI_SERVICE_URL to your AI app's private address:
+#    http://<your-ai-app-name>.internal:8000
+
+app = "fde-translate-gw-aj"
+primary_region = "iad"          # same region as the AI app
+
+[build]
+  dockerfile = "Dockerfile.gateway"
+
+[env]
+  AI_SERVICE_URL = "http://fde-translate-ai-aj.internal:8000"
+
+[http_service]
+  internal_port = 8787
+  force_https = true
+  auto_stop_machines = "stop"
+  auto_start_machines = true
+  min_machines_running = 1       # keep 1 warm so the widget never hits a cold start
+
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "256mb"

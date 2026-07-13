@@ -1,0 +1,14 @@
+# Node gateway. Build context = assignment root (needs ../../widget at runtime).
+FROM node:20-slim
+
+# Recreate the repo layout so server.js finds ../../widget/translation-widget.js
+WORKDIR /app/backend/gateway-node
+
+COPY backend/gateway-node/package*.json ./
+RUN npm ci --omit=dev
+
+COPY backend/gateway-node/server.js ./
+COPY widget/ /app/widget/
+
+EXPOSE 8787
+CMD ["node", "server.js"]
